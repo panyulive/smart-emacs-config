@@ -1,0 +1,24 @@
+# Emacs自動生成ファイル
+auto-save-list/
+eln-cache/
+elpa/
+backups/
+
+# バックアップファイル
+*~
+*.elc
+.#*
+\#*\#
+
+# 一時ファイル
+init.el.backup
+init.el~
+benchmark-init.el
+init-solution1.el
+init-optimized.el
+init-fast.el
+fix-native-comp.sh
+
+# OS固有ファイル
+.DS_Store
+Thumbs.db
