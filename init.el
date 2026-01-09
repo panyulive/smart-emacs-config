@@ -11,6 +11,8 @@
 (package-initialize)
 
 (use-package emacs
+  :init
+  (global-display-line-numbers-mode)
   :custom
   ;; 1. バックアップ (ファイル名~ ) の設定
   (make-backup-files t)               ; バックアップを作成する
@@ -28,6 +30,12 @@
   (create-lockfiles nil)
 
   :config
+  ;; プログラミングモードでは折り返しを無効（構造を優先）
+  (add-hook 'prog-mode-hook (lambda () (setq truncate-lines t)))
+
+  ;; 文章作成（MarkdownやText）では折り返しを有効（読みやすさを優先）
+  (add-hook 'text-mode-hook (lambda () (setq truncate-lines nil)))
+
   ;; 保存先ディレクトリの定義
   (let ((backup-dir (expand-file-name "~/.emacs.d/backups/")))
     ;; ディレクトリが存在しなければ作成
@@ -103,6 +111,20 @@
   :init
   (marginalia-mode))
 
+(use-package embark
+  :ensure t
+  :bind
+  (("C-." . embark-act)         ; 候補に対してアクション（anythingのTabに相当）
+   ("M-." . embark-dwim))        ; 状況に応じた最適なアクションを実行
+  :config
+  ;; アクション実行後にミニバッファを閉じないなどの設定
+  (setq prefix-help-command #'embark-prefix-help-command))
+
+(use-package embark-consult
+  :ensure t
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
 ;; --- 4. Consult: 検索・移動の拡張ユーティリティ ---
 ;; AIとの対話で増えたバッファやファイルを瞬時に切り替えるのに必須です
 (use-package consult
@@ -172,6 +194,15 @@
           compilation-mode))
   (popper-mode +1)
   (popper-echo-mode +1)) ; どのポップアップがあるかミニバッファに表示
+
+(use-package which-key
+  :ensure t
+  :init
+  (which-key-mode)
+  :config
+  (setq which-key-idle-delay 0.3)
+  
+  ) ; キーを押してからパネルが出るまでの時間（秒）
 
 ;; +++++++++++++++++++++++++++++++++++++++++++++++++++++
 ;;
@@ -260,7 +291,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(ace-window consult embark embark-consult format-all go-mode
+		magit-delta marginalia orderless popper
+		projectile-rails rainbow-delimiters treesit-auto
+		vertico)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
