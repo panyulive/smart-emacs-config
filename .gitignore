@@ -4,6 +4,7 @@ eln-cache/
 elpa/
 backups/
 clone-package/
+transient/
 
 # バックアップファイル
 *~
