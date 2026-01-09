@@ -3,6 +3,7 @@ auto-save-list/
 eln-cache/
 elpa/
 backups/
+clone-package/
 
 # バックアップファイル
 *~
@@ -19,6 +20,8 @@ init-optimized.el
 init-fast.el
 fix-native-comp.sh
 
+
 # OS固有ファイル
 .DS_Store
 Thumbs.db
+projectile-bookmarks.eld 
